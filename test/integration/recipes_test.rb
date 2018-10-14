@@ -3,7 +3,8 @@ require 'test_helper'
 class RecipesTest < ActionDispatch::IntegrationTest
   
   def setup
-    @chef = Chef.create!(chefname: "masato", email: "masatonnoguchi@gmail.com")
+    @chef = Chef.create!(chefname: "masato", email: "masatonnoguchi@gmail.com",
+                         password: "password", password_confirmation: "password")
     @recipe = Recipe.create(name: "vegetable saute", description: "great vegetable sautee, add vegetable and oil", chef: @chef)
     @recipe2 = @chef.recipes.build(name: "chicken saute", description: "great chicken dish")
     @recipe2.save
@@ -55,7 +56,5 @@ class RecipesTest < ActionDispatch::IntegrationTest
     assert_select 'h2.panel-title'
     assert_select 'div.panel-body'
   end
-  
-  
-  
+    
 end
