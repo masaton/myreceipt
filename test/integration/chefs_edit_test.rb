@@ -33,7 +33,7 @@ class ChefsEditTest < ActionDispatch::IntegrationTest
     assert_match "masatonnoguchi-update@gmail.com", @chef.email
   end
 
-  test "accet edit attempt by admin user" do
+  test "accept edit attempt by admin user" do
     sign_in_as(@admin_user, "password")
     get edit_chef_path(@chef)
     assert_template 'chefs/edit'

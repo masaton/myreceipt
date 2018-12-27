@@ -6,6 +6,7 @@ class RecipesTest < ActionDispatch::IntegrationTest
     @chef = Chef.create!(chefname: "masato", email: "masatonnoguchi@gmail.com",
                          password: "password", password_confirmation: "password")
     @recipe = Recipe.create(name: "vegetable saute", description: "great vegetable sautee, add vegetable and oil", chef: @chef)
+    @ingredient = Ingredient.create!(name: "potato")
     @recipe2 = @chef.recipes.build(name: "chicken saute", description: "great chicken dish")
     @recipe2.save
   end
@@ -34,6 +35,20 @@ class RecipesTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", recipes_path, text: "Return to recipes listing"
   end
   
+  test "should get recipes show include ingredient" do
+    sign_in_as(@chef, "password")
+    @recipe.ingredients << @ingredient
+    get recipe_path(@recipe)
+    assert_template 'recipes/show'
+    assert_match @recipe.name, response.body
+    assert_match @recipe.description, response.body
+    assert_match @chef.chefname, response.body
+    assert_match @ingredient.name, response.body
+    assert_select "a[href=?]", edit_recipe_path(@recipe), text: "Edit this recipe"
+    assert_select "a[href=?]", recipe_path(@recipe), text: "Delete this recipe"
+    assert_select "a[href=?]", recipes_path, text: "Return to recipes listing"
+  end
+
   test "create new valid recipe" do
     sign_in_as(@chef, "password")
     get new_recipe_path
