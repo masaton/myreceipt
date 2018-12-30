@@ -30,7 +30,6 @@ class ChefsLoginTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", logout_path
     assert_select "a[href=?]", chef_path(@chef)
     assert_select "a[href=?]", edit_chef_path(@chef)
-    
   end
   
 end
