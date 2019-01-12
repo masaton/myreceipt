@@ -6,4 +6,4 @@ App.comments = App.cable.subscriptions.create "CommentsChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-    $("#messages").prepend(data)
+    $("#messages .comment-fix:first").prepend(data)
